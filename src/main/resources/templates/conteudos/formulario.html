@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: pagina(${conteudo.id == null ? 'Novo conteúdo' : 'Editar conteúdo'}, 'conteudos', ~{::main})}">
+<body>
+<main id="principal" class="container app-container page-main">
+    <a class="back-link" th:href="${conteudo.id == null} ? @{/conteudos} : @{/conteudos/{id}(id=${conteudo.id})}">
+        <i class="bi bi-chevron-left" aria-hidden="true"></i>
+        <span th:text="${conteudo.id == null ? 'Meus conteúdos' : 'Voltar ao conteúdo'}">Meus conteúdos</span>
+    </a>
+
+    <div class="page-heading">
+        <h1 th:text="${conteudo.id == null ? 'Novo conteúdo' : 'Editar conteúdo'}">Novo conteúdo</h1>
+        <p th:text="${conteudo.id == null ? 'Adicione anotações, um trecho de leitura ou outro texto de estudo.' : 'Atualize os dados e o texto do seu material de estudo.'}">
+            Adicione anotações, um trecho de leitura ou outro texto de estudo.
+        </p>
+    </div>
+
+    <div th:replace="~{fragmentos :: mensagens}"></div>
+
+    <form class="editor surface"
+          th:action="${conteudo.id == null} ? @{/conteudos} : @{/conteudos/{id}(id=${conteudo.id})}"
+          th:object="${conteudo}" method="post">
+        <div class="row g-4">
+            <div class="col-md-7">
+                <label class="form-label" for="titulo">Título</label>
+                <input class="form-control" type="text" th:field="*{titulo}" th:errorclass="is-invalid"
+                       th:attr="aria-invalid=${#fields.hasErrors('titulo')},aria-describedby=${#fields.hasErrors('titulo') ? 'titulo-erro' : null}"
+                       maxlength="160" placeholder="Ex. Programação orientada a objetos" required>
+                <div th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}" id="titulo-erro" class="invalid-feedback"></div>
+            </div>
+            <div class="col-md-5">
+                <label class="form-label" for="disciplina">Disciplina</label>
+                <input class="form-control" type="text" th:field="*{disciplina}" th:errorclass="is-invalid"
+                       th:attr="aria-invalid=${#fields.hasErrors('disciplina')},aria-describedby=${#fields.hasErrors('disciplina') ? 'disciplina-erro' : null}"
+                       maxlength="100" placeholder="Ex. Desenvolvimento de software" required>
+                <div th:if="${#fields.hasErrors('disciplina')}" th:errors="*{disciplina}" id="disciplina-erro" class="invalid-feedback"></div>
+            </div>
+            <div class="col-12">
+                <label class="form-label" for="texto">Conteúdo textual</label>
+                <textarea class="form-control editor-textarea" th:field="*{texto}" th:errorclass="is-invalid"
+                          th:attr="aria-invalid=${#fields.hasErrors('texto')},aria-describedby=${#fields.hasErrors('texto') ? 'texto-erro' : null}"
+                          rows="12" maxlength="200000" placeholder="Escreva ou cole o texto que você quer estudar." required></textarea>
+                <div th:if="${#fields.hasErrors('texto')}" th:errors="*{texto}" id="texto-erro" class="invalid-feedback"></div>
+            </div>
+        </div>
+        <div class="editor-actions">
+            <a class="btn btn-outline-secondary"
+               th:href="${conteudo.id == null} ? @{/conteudos} : @{/conteudos/{id}(id=${conteudo.id})}">Cancelar</a>
+            <button class="btn btn-primary" type="submit"
+                    th:text="${conteudo.id == null ? 'Salvar conteúdo' : 'Salvar alterações'}">Salvar conteúdo</button>
+        </div>
+    </form>
+</main>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: pagina('Página indisponível', '', ~{::main})}">
+<body>
+<main id="principal" class="container app-container page-main">
+    <section class="surface empty-state">
+        <span class="feature-icon icon-violet"><i class="bi bi-journal-x" aria-hidden="true"></i></span>
+        <h1>Página indisponível</h1>
+        <p>Confira seus conteúdos para continuar estudando.</p>
+        <a class="btn btn-primary" th:href="@{/conteudos}">Meus conteúdos</a>
+    </section>
+</main>
+</body>
+</html>

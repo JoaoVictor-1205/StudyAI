@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: pagina('Início', 'inicio', ~{::main})}">
+<body>
+<main id="principal" class="container app-container home-main">
+    <section class="hero" aria-labelledby="hero-titulo">
+        <div class="hero-copy">
+            <h1 id="hero-titulo">Dê vida às suas<br class="d-none d-md-inline"> <em>anotações.</em></h1>
+            <p>Guarde seus conteúdos de estudo e use a IA para resumir, praticar com questões e entender conceitos com exemplos.</p>
+            <div class="hero-actions">
+                <a class="btn btn-lime" th:href="@{/conteudos/novo}">
+                    <i class="bi bi-plus-lg" aria-hidden="true"></i>
+                    Cadastrar conteúdo
+                </a>
+                <a class="btn btn-hero-outline" th:href="@{/conteudos}">Meus conteúdos</a>
+            </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+            <img th:src="@{/img/study-desk.webp}" alt="" width="1200" height="800" fetchpriority="high">
+        </div>
+    </section>
+
+    <section class="home-tools" aria-labelledby="ferramentas-titulo">
+        <h2 id="ferramentas-titulo">Três formas de estudar</h2>
+        <p class="section-intro">Escolha o que precisa para a próxima revisão.</p>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <article class="feature-card h-100">
+                    <span class="feature-icon icon-violet"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span>
+                    <h3>Resumo</h3>
+                    <p>Identifique as ideias centrais e os conceitos que merecem revisão.</p>
+                </article>
+            </div>
+            <div class="col-md-4">
+                <article class="feature-card h-100">
+                    <span class="feature-icon icon-lime"><i class="bi bi-list-check" aria-hidden="true"></i></span>
+                    <h3>Questões</h3>
+                    <p>Pratique com cinco questões de múltipla escolha e confira o gabarito.</p>
+                </article>
+            </div>
+            <div class="col-md-4">
+                <article class="feature-card h-100">
+                    <span class="feature-icon icon-peach"><i class="bi bi-lightbulb" aria-hidden="true"></i></span>
+                    <h3>Explicação</h3>
+                    <p>Entenda pontos difíceis com linguagem simples e exemplos práticos.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

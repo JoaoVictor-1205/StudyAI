@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="mensagens">
+    <div th:if="${mensagemSucesso}" class="notice notice-success" role="status">
+        <i class="bi bi-check-circle" aria-hidden="true"></i>
+        <span th:text="${mensagemSucesso}"></span>
+    </div>
+    <div th:if="${mensagemErro}" class="notice notice-error" role="alert">
+        <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+        <span th:text="${mensagemErro}"></span>
+    </div>
+</div>
+</body>
+</html>

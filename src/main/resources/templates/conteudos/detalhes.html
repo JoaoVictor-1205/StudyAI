@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: pagina(${conteudo.titulo}, 'conteudos', ~{::main})}">
+<body>
+<main id="principal" class="container app-container page-main">
+    <a class="back-link" th:href="@{/conteudos}">
+        <i class="bi bi-chevron-left" aria-hidden="true"></i>
+        Meus conteúdos
+    </a>
+
+    <div class="page-heading page-heading-split detail-heading">
+        <div>
+            <span class="subject-label" th:text="${conteudo.disciplina}">Disciplina</span>
+            <h1 th:text="${conteudo.titulo}">Título do conteúdo</h1>
+            <p>Cadastrado em <time th:datetime="${#temporals.formatISO(conteudo.dataCriacao)}"
+                                  th:text="${#temporals.format(conteudo.dataCriacao, 'dd/MM/yyyy')}"></time></p>
+        </div>
+        <div class="record-actions">
+            <a class="btn btn-outline-secondary" th:href="@{/conteudos/{id}/editar(id=${conteudo.id})}">
+                <i class="bi bi-pencil" aria-hidden="true"></i>
+                Editar
+            </a>
+            <form th:action="@{/conteudos/{id}/excluir(id=${conteudo.id})}" method="post" data-confirm-delete>
+                <button class="btn btn-outline-danger" type="submit">
+                    <i class="bi bi-trash" aria-hidden="true"></i>
+                    Excluir
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div th:replace="~{fragmentos :: mensagens}"></div>
+
+    <div class="study-grid">
+        <section class="surface paper-panel" aria-labelledby="texto-titulo">
+            <h2 id="texto-titulo"><i class="bi bi-journal-text" aria-hidden="true"></i> Texto do conteúdo</h2>
+            <div class="source-reader study-text" tabindex="0" role="region"
+                 aria-labelledby="texto-titulo" th:text="${conteudo.texto}"></div>
+        </section>
+
+        <section class="surface ai-panel" aria-labelledby="ia-titulo" data-ai-panel>
+            <h2 id="ia-titulo"><i class="bi bi-stars" aria-hidden="true"></i> Estudar com IA</h2>
+            <div class="ai-tools">
+                <form th:action="@{/conteudos/{id}/geracoes(id=${conteudo.id})}" method="post" data-ai-action>
+                    <input type="hidden" name="tipo" value="RESUMO">
+                    <button class="ai-tool" type="submit">
+                        <span class="feature-icon icon-violet"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span>
+                        <span class="ai-tool-copy">
+                            <strong>Gerar resumo</strong>
+                            <small>Veja os principais conceitos do texto.</small>
+                        </span>
+                        <span class="spinner-border spinner-border-sm" hidden data-ai-spinner aria-hidden="true"></span>
+                    </button>
+                </form>
+                <form th:action="@{/conteudos/{id}/geracoes(id=${conteudo.id})}" method="post" data-ai-action>
+                    <input type="hidden" name="tipo" value="QUESTOES">
+                    <button class="ai-tool" type="submit">
+                        <span class="feature-icon icon-lime"><i class="bi bi-list-check" aria-hidden="true"></i></span>
+                        <span class="ai-tool-copy">
+                            <strong>Gerar questões</strong>
+                            <small>Pratique com cinco questões e gabarito.</small>
+                        </span>
+                        <span class="spinner-border spinner-border-sm" hidden data-ai-spinner aria-hidden="true"></span>
+                    </button>
+                </form>
+                <form th:action="@{/conteudos/{id}/geracoes(id=${conteudo.id})}" method="post" data-ai-action>
+                    <input type="hidden" name="tipo" value="EXPLICACAO">
+                    <button class="ai-tool" type="submit">
+                        <span class="feature-icon icon-peach"><i class="bi bi-lightbulb" aria-hidden="true"></i></span>
+                        <span class="ai-tool-copy">
+                            <strong>Explicar conteúdo</strong>
+                            <small>Entenda com exemplos e linguagem simples.</small>
+                        </span>
+                        <span class="spinner-border spinner-border-sm" hidden data-ai-spinner aria-hidden="true"></span>
+                    </button>
+                </form>
+            </div>
+            <p class="ai-status" role="status" data-ai-status></p>
+        </section>
+    </div>
+
+    <section id="resposta" class="surface response-panel" th:if="${geracaoSelecionada != null}"
+             aria-labelledby="resposta-titulo" tabindex="-1" th:attr="data-jump-to-response=${mensagemSucesso != null ? 'true' : null}">
+        <div class="response-heading">
+            <span class="feature-icon icon-violet"><i class="bi bi-stars" aria-hidden="true"></i></span>
+            <div>
+                <h2 id="resposta-titulo" th:text="${geracaoSelecionada.tipo.rotulo}">Resposta da IA</h2>
+                <p>Gerado em <time th:datetime="${#temporals.formatISO(geracaoSelecionada.dataCriacao)}"
+                                   th:text="${#temporals.format(geracaoSelecionada.dataCriacao, 'dd/MM/yyyy HH:mm')}"></time></p>
+            </div>
+        </div>
+        <div class="study-text response-text" th:text="${geracaoSelecionada.resposta}"></div>
+    </section>
+
+    <section class="surface history-panel" aria-labelledby="historico-titulo">
+        <h2 id="historico-titulo"><i class="bi bi-clock-history" aria-hidden="true"></i> Histórico de gerações</h2>
+        <p class="history-empty" th:if="${#lists.isEmpty(geracoes)}">As respostas aparecerão aqui assim que forem geradas.</p>
+        <ul class="history-list list-unstyled" th:unless="${#lists.isEmpty(geracoes)}">
+            <li th:each="geracao : ${geracoes}">
+                <a class="history-link" th:href="@{/conteudos/{id}(id=${conteudo.id},geracao=${geracao.id})} + '#resposta'"
+                   th:classappend="${geracaoSelecionada != null and geracaoSelecionada.id == geracao.id ? 'selected' : ''}"
+                   th:attr="aria-current=${geracaoSelecionada != null and geracaoSelecionada.id == geracao.id ? 'true' : null}">
+                    <span th:text="${geracao.tipo.rotulo}">Resumo</span>
+                    <time th:datetime="${#temporals.formatISO(geracao.dataCriacao)}"
+                          th:text="${#temporals.format(geracao.dataCriacao, 'dd/MM/yyyy HH:mm')}"></time>
+                </a>
+            </li>
+        </ul>
+    </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: pagina('Meus conteúdos', 'conteudos', ~{::main})}">
+<body>
+<main id="principal" class="container app-container page-main">
+    <div class="page-heading page-heading-split">
+        <div>
+            <h1>Meus conteúdos</h1>
+            <p>Organize seus materiais e escolha um conteúdo para estudar.</p>
+        </div>
+        <a class="btn btn-primary" th:href="@{/conteudos/novo}">
+            <i class="bi bi-plus-lg" aria-hidden="true"></i>
+            Novo conteúdo
+        </a>
+    </div>
+
+    <div th:replace="~{fragmentos :: mensagens}"></div>
+
+    <section class="empty-state surface" th:if="${#lists.isEmpty(conteudos)}">
+        <span class="feature-icon icon-violet"><i class="bi bi-journal-text" aria-hidden="true"></i></span>
+        <h2>Nenhum conteúdo cadastrado</h2>
+        <p>Adicione um texto para começar a estudar com o StudyAI.</p>
+        <a class="btn btn-primary" th:href="@{/conteudos/novo}">Cadastrar conteúdo</a>
+    </section>
+
+    <ul class="content-list list-unstyled" th:unless="${#lists.isEmpty(conteudos)}">
+        <li th:each="conteudo : ${conteudos}">
+            <article class="library-item surface">
+                <span class="feature-icon icon-violet library-icon"><i class="bi bi-journal-text" aria-hidden="true"></i></span>
+                <div class="library-info">
+                    <span class="library-subject" th:text="${conteudo.disciplina}">Disciplina</span>
+                    <h2>
+                        <a th:href="@{/conteudos/{id}(id=${conteudo.id})}" th:text="${conteudo.titulo}">Título</a>
+                    </h2>
+                    <time th:datetime="${#temporals.formatISO(conteudo.dataCriacao)}"
+                          th:text="${#temporals.format(conteudo.dataCriacao, 'dd/MM/yyyy')}"></time>
+                </div>
+                <a class="btn btn-outline-secondary library-open" th:href="@{/conteudos/{id}(id=${conteudo.id})}"
+                   th:attr="aria-label=${'Abrir conteúdo ' + conteudo.titulo}">Abrir conteúdo</a>
+            </article>
+        </li>
+    </ul>
+</main>
+</body>
+</html>

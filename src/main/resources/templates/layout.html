@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+      th:fragment="pagina(titulo, ativa, principal)">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${titulo + ' | StudyAI'}">StudyAI</title>
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.min.css}">
+    <link rel="stylesheet" th:href="@{/css/studyai.css}">
+    <script defer th:src="@{/js/studyai.js}"></script>
+</head>
+<body>
+<a class="skip-link" href="#principal">Ir para o conteúdo</a>
+<header class="topbar">
+    <div class="container app-container topbar-inner">
+        <a class="brand" th:href="@{/}" aria-label="StudyAI, página inicial">
+            <span class="brand-icon"><i class="bi bi-book" aria-hidden="true"></i></span>
+            <span>Study<span class="brand-accent">AI</span></span>
+        </a>
+        <nav class="app-nav" aria-label="Navegação principal">
+            <a th:href="@{/}" th:classappend="${ativa == 'inicio' ? 'active' : ''}"
+               th:attr="aria-current=${ativa == 'inicio' ? 'page' : null}">Início</a>
+            <a th:href="@{/conteudos}" th:classappend="${ativa == 'conteudos' ? 'active' : ''}"
+               th:attr="aria-current=${ativa == 'conteudos' ? 'page' : null}">Meus conteúdos</a>
+        </nav>
+        <a class="btn btn-primary topbar-create" th:href="@{/conteudos/novo}"
+           aria-label="Novo conteúdo">
+            <i class="bi bi-plus-lg" aria-hidden="true"></i>
+            <span>Novo conteúdo</span>
+        </a>
+    </div>
+</header>
+
+<main th:replace="${principal}"></main>
+
+<footer class="app-footer">
+    <div class="container app-container footer-inner">
+        <span class="footer-brand">StudyAI</span>
+        <span>Projeto acadêmico · Assistente de estudos com IA</span>
+    </div>
+</footer>
+</body>
+</html>
