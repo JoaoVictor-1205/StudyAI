@@ -22,6 +22,8 @@
     --bs-body-bg: var(--canvas);
     --bs-link-color: var(--purple);
     --bs-link-hover-color: var(--purple-dark);
+    --bs-link-color-rgb: 85, 53, 166;
+    --bs-link-hover-color-rgb: 64, 38, 135;
 }
 
 body {
@@ -48,6 +50,14 @@ main {
 :focus-visible {
     outline: 3px solid var(--purple);
     outline-offset: 4px;
+}
+
+/* O Bootstrap remove o contorno de botões e campos; ele volta aqui para o foco continuar visível. */
+.btn:focus-visible,
+.form-control:focus-visible,
+.form-check-input:focus-visible {
+    outline: 3px solid var(--purple);
+    outline-offset: 2px;
 }
 
 .skip-link {
@@ -671,6 +681,39 @@ main {
     display: none !important;
 }
 
+.ai-key {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin: 0 0 0.875rem;
+    color: var(--muted);
+    font-size: 0.875rem;
+    line-height: 1.45;
+}
+
+.ai-key i {
+    flex: none;
+    color: var(--purple);
+}
+
+.ai-key a {
+    font-weight: 750;
+    white-space: nowrap;
+}
+
+.ai-key-missing {
+    border: 1px solid #f0d2b8;
+    border-radius: 0.75rem;
+    padding: 0.75rem 0.875rem;
+    background: #fdf3ea;
+    color: #6f3a17;
+    font-weight: 650;
+}
+
+.ai-key-missing i {
+    color: #894a23;
+}
+
 .ai-status {
     margin: 0;
     color: var(--purple-dark);
@@ -740,9 +783,17 @@ main {
     text-decoration: none;
 }
 
-.history-link:hover,
-.history-link.selected {
+.history-link:hover {
     border-color: #d9cdea;
+    background: #faf7fe;
+    color: var(--purple-dark);
+}
+
+/* Uma borda real (e não sombra) continua visível no modo de alto contraste. */
+.history-link.selected {
+    border-color: #c9b8e3;
+    border-left: 4px solid var(--purple);
+    padding-left: calc(0.875rem - 3px);
     background: #f4effb;
     color: var(--purple-dark);
 }
@@ -751,6 +802,136 @@ main {
     color: var(--muted);
     font-size: 0.875rem;
     font-weight: 500;
+}
+
+.key-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: 1rem;
+    align-items: start;
+}
+
+.key-panel {
+    max-width: none;
+}
+
+.key-info {
+    padding: clamp(1rem, 3vw, 1.5rem);
+}
+
+.key-panel h2,
+.key-info h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    margin: 0 0 1rem;
+    font-size: 1.15rem;
+    font-weight: 800;
+}
+
+.key-panel h2 i,
+.key-info h2 i {
+    color: var(--purple);
+}
+
+.key-current {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    border: 1px solid var(--line);
+    border-radius: 0.75rem;
+    padding: 0.75rem;
+    background: var(--canvas);
+}
+
+.key-current-copy {
+    display: grid;
+    gap: 0.125rem;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.key-current-copy strong {
+    font-weight: 800;
+}
+
+.key-current-copy span {
+    color: var(--muted);
+    font-size: 0.875rem;
+}
+
+.key-panel .form-text {
+    margin: 0.5rem 0 0;
+    color: var(--muted);
+    font-size: 0.875rem;
+}
+
+.key-panel code {
+    color: var(--purple-dark);
+}
+
+.key-remember {
+    margin-top: 1.25rem;
+}
+
+.key-remember .form-check-input {
+    border-color: #8a80a0;
+}
+
+/* O erro fica sempre na árvore de acessibilidade para o role="alert" anunciar cada mensagem nova. */
+.key-panel .invalid-feedback {
+    display: block;
+}
+
+.key-panel .invalid-feedback:empty {
+    margin: 0;
+}
+
+.key-remember .form-check-input:checked {
+    border-color: var(--purple);
+    background-color: var(--purple);
+}
+
+.key-remember .form-check-input:focus {
+    border-color: var(--purple);
+    box-shadow: 0 0 0 0.2rem rgba(85, 53, 166, 0.14);
+}
+
+.key-remember .form-check-label {
+    font-weight: 750;
+}
+
+.key-feedback {
+    margin: 0;
+    color: var(--purple-dark);
+    font-size: 0.9375rem;
+    font-weight: 700;
+}
+
+.key-feedback:not(:empty) {
+    margin-top: 1rem;
+}
+
+.key-facts {
+    display: grid;
+    gap: 0.75rem;
+    margin: 0 0 1.25rem;
+    padding-left: 1.25rem;
+    line-height: 1.55;
+}
+
+.key-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4375rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.key-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.17em;
 }
 
 .app-footer {
@@ -785,6 +966,7 @@ main {
     .app-nav {
         grid-column: 1 / -1;
         grid-row: 2;
+        flex-wrap: wrap;
     }
 
     .app-nav a {
@@ -823,7 +1005,8 @@ main {
         background: linear-gradient(var(--hero), rgba(37, 26, 67, 0.6) 11%, transparent 36%);
     }
 
-    .study-grid {
+    .study-grid,
+    .key-grid {
         grid-template-columns: minmax(0, 1fr);
     }
 

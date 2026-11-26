@@ -58,7 +58,8 @@ public class ConteudoFormulario {
         return texto;
     }
 
+    // O navegador conta cada quebra de linha como 1 caractere no maxlength, mas a envia como CRLF.
     public void setTexto(String texto) {
-        this.texto = texto;
+        this.texto = texto == null ? null : texto.replace("\r\n", "\n").replace('\r', '\n');
     }
 }

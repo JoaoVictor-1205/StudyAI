@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: pagina('Chave da API', 'chave-api', ~{::main})}">
+<body>
+<main id="principal" class="container app-container page-main">
+    <div class="page-heading">
+        <h1>Chave da API</h1>
+        <p>Salve sua chave da API do Google Gemini para gerar resumos, questões e explicações.</p>
+    </div>
+
+    <noscript>
+        <div class="notice notice-error">
+            <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+            <span>Ative o JavaScript para salvar a chave. Ela fica guardada apenas no armazenamento do navegador.</span>
+        </div>
+    </noscript>
+
+    <div class="key-grid">
+        <section class="surface editor key-panel" aria-labelledby="chave-titulo" data-key-page>
+            <h2 id="chave-titulo"><i class="bi bi-key" aria-hidden="true"></i> Sua chave</h2>
+
+            <div class="key-current" data-key-current hidden>
+                <span class="feature-icon icon-peach" data-key-current-icon><i class="bi bi-key" aria-hidden="true"></i></span>
+                <div class="key-current-copy">
+                    <strong data-key-current-title>Nenhuma chave salva</strong>
+                    <span data-key-current-detail>Salve uma chave para usar a IA.</span>
+                </div>
+            </div>
+
+            <!-- Os campos não têm "name" e ficam desabilitados sem JavaScript: a chave nunca é enviada por este formulário. -->
+            <form class="key-form" data-key-form novalidate>
+                <fieldset disabled data-key-fields>
+                    <label class="form-label" for="chave-api">Chave da API do Gemini</label>
+                    <div class="input-group has-validation">
+                        <input class="form-control" id="chave-api" type="password"
+                               autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="AIza..."
+                               aria-describedby="chave-api-ajuda" data-key-input data-1p-ignore data-lpignore="true">
+                        <button class="btn btn-outline-secondary key-toggle" type="button" aria-controls="chave-api"
+                                aria-label="Mostrar chave" data-key-toggle>
+                            <i class="bi bi-eye" aria-hidden="true"></i>
+                            <span data-key-toggle-text>Mostrar</span>
+                        </button>
+                        <div class="invalid-feedback" id="chave-api-erro" role="alert" data-key-error></div>
+                    </div>
+                    <p class="form-text" id="chave-api-ajuda">
+                        Cole a chave criada no Google AI Studio. Normalmente ela começa com <code>AIza</code>.
+                    </p>
+
+                    <div class="form-check key-remember">
+                        <input class="form-check-input" type="checkbox" id="lembrar-chave" checked
+                               aria-describedby="lembrar-chave-ajuda" data-key-remember>
+                        <label class="form-check-label" for="lembrar-chave">Lembrar neste navegador</label>
+                        <p class="form-text" id="lembrar-chave-ajuda">
+                            Desmarcada, a chave fica só nesta aba. O navegador ainda pode restaurá-la se a aba ou a sessão
+                            for reaberta, então, em computadores compartilhados, clique em Remover chave antes de sair ou
+                            use uma janela anônima.
+                        </p>
+                    </div>
+
+                    <div class="editor-actions">
+                        <button class="btn btn-outline-danger" type="button" data-key-remove hidden>
+                            <i class="bi bi-trash" aria-hidden="true"></i>
+                            Remover chave
+                        </button>
+                        <button class="btn btn-primary" type="submit">
+                            <i class="bi bi-check-lg" aria-hidden="true"></i>
+                            Salvar chave
+                        </button>
+                    </div>
+                </fieldset>
+            </form>
+            <p class="key-feedback" role="status" data-key-status></p>
+        </section>
+
+        <aside class="surface key-info" aria-labelledby="privacidade-titulo">
+            <h2 id="privacidade-titulo"><i class="bi bi-shield-lock" aria-hidden="true"></i> Onde a chave fica</h2>
+            <ul class="key-facts">
+                <li>Fica salva somente neste navegador, no armazenamento do StudyAI.</li>
+                <li>Vai para o servidor apenas quando você pede uma geração, e ele a repassa ao Gemini nessa mesma chamada.</li>
+                <li>Não é gravada no banco de dados, em arquivos nem na sessão do servidor.</li>
+                <li>Quem usar este navegador pode gerar respostas com ela. Remova a chave quando não precisar mais.</li>
+                <li>Se o navegador oferecer salvar a chave como senha, recuse para mantê-la só no armazenamento do StudyAI.</li>
+                <li>Na camada gratuita do Gemini, o Google pode usar o conteúdo enviado para melhorar os produtos dele. Evite materiais com dados pessoais ou sigilosos.</li>
+            </ul>
+            <a class="key-link" href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">
+                Criar ou gerenciar chaves no Google AI Studio
+                <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i>
+                <span class="visually-hidden">(abre em nova aba)</span>
+            </a>
+        </aside>
+    </div>
+</main>
+</body>
+</html>

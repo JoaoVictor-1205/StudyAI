@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layout :: pagina(${conteudo.titulo}, 'conteudos', ~{::main})}">
+      th:replace="~{layout :: pagina(${conteudo.titulo}, 'conteudo', ~{::main})}">
 <body>
 <main id="principal" class="container app-container page-main">
     <a class="back-link" th:href="@{/conteudos}">
@@ -32,7 +32,7 @@
     <div th:replace="~{fragmentos :: mensagens}"></div>
 
     <div class="study-grid">
-        <section class="surface paper-panel" aria-labelledby="texto-titulo">
+        <section class="surface paper-panel">
             <h2 id="texto-titulo"><i class="bi bi-journal-text" aria-hidden="true"></i> Texto do conteúdo</h2>
             <div class="source-reader study-text" tabindex="0" role="region"
                  aria-labelledby="texto-titulo" th:text="${conteudo.texto}"></div>
@@ -40,6 +40,22 @@
 
         <section class="surface ai-panel" aria-labelledby="ia-titulo" data-ai-panel>
             <h2 id="ia-titulo"><i class="bi bi-stars" aria-hidden="true"></i> Estudar com IA</h2>
+            <noscript>
+                <p class="ai-key ai-key-missing">
+                    <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+                    <span>Ative o JavaScript para usar a IA. A chave da API fica salva somente no navegador.</span>
+                </p>
+            </noscript>
+            <p class="ai-key" data-key-summary hidden>
+                <i class="bi bi-key" aria-hidden="true"></i>
+                <span><span data-key-summary-text>Usando a chave salva neste navegador.</span>
+                    <a th:href="@{/chave-api}">Alterar chave</a></span>
+            </p>
+            <p class="ai-key ai-key-missing" tabindex="-1" data-key-missing hidden>
+                <i class="bi bi-key" aria-hidden="true"></i>
+                <span>Salve sua chave da API do Gemini neste navegador para gerar respostas.
+                    <a th:href="@{/chave-api}">Salvar chave</a></span>
+            </p>
             <div class="ai-tools">
                 <form th:action="@{/conteudos/{id}/geracoes(id=${conteudo.id})}" method="post" data-ai-action>
                     <input type="hidden" name="tipo" value="RESUMO">

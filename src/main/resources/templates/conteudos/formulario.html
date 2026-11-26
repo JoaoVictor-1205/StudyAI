@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layout :: pagina(${conteudo.id == null ? 'Novo conteúdo' : 'Editar conteúdo'}, 'conteudos', ~{::main})}">
+      th:replace="~{layout :: pagina(${conteudo.id == null ? 'Novo conteúdo' : 'Editar conteúdo'}, 'conteudo', ~{::main})}">
 <body>
 <main id="principal" class="container app-container page-main">
     <a class="back-link" th:href="${conteudo.id == null} ? @{/conteudos} : @{/conteudos/{id}(id=${conteudo.id})}">

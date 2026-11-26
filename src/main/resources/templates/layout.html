@@ -21,8 +21,10 @@
         <nav class="app-nav" aria-label="Navegação principal">
             <a th:href="@{/}" th:classappend="${ativa == 'inicio' ? 'active' : ''}"
                th:attr="aria-current=${ativa == 'inicio' ? 'page' : null}">Início</a>
-            <a th:href="@{/conteudos}" th:classappend="${ativa == 'conteudos' ? 'active' : ''}"
-               th:attr="aria-current=${ativa == 'conteudos' ? 'page' : null}">Meus conteúdos</a>
+            <a th:href="@{/conteudos}" th:classappend="${ativa == 'conteudos' or ativa == 'conteudo' ? 'active' : ''}"
+               th:attr="aria-current=${ativa == 'conteudos' ? 'page' : (ativa == 'conteudo' ? 'true' : null)}">Meus conteúdos</a>
+            <a th:href="@{/chave-api}" th:classappend="${ativa == 'chave-api' ? 'active' : ''}"
+               th:attr="aria-current=${ativa == 'chave-api' ? 'page' : null}">Chave da API</a>
         </nav>
         <a class="btn btn-primary topbar-create" th:href="@{/conteudos/novo}"
            aria-label="Novo conteúdo">

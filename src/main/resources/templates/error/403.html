@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: pagina('Acesso recusado', '', ~{::main})}">
+<body>
+<main id="principal" class="container app-container page-main">
+    <section class="surface empty-state">
+        <span class="feature-icon icon-peach"><i class="bi bi-shield-exclamation" aria-hidden="true"></i></span>
+        <h1>Acesso recusado</h1>
+        <p>O StudyAI só aceita envios feitos pelas próprias páginas e acessos por localhost ou 127.0.0.1.
+            Se você abriu a aplicação por outro endereço, inclua-o na propriedade studyai.hosts-permitidos.</p>
+        <a class="btn btn-primary" th:href="@{/}">Voltar ao início</a>
+    </section>
+</main>
+</body>
+</html>

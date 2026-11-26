@@ -53,11 +53,17 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-starter-model-openai</artifactId>
+            <artifactId>spring-ai-starter-model-google-genai</artifactId>
         </dependency>
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- Banco em memória usado só pelo perfil "h2", para testar a aplicação sem MySQL. -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -72,6 +78,34 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <!-- Carrega o Mockito como agente Java nos testes, como recomenda a documentação dele, em vez de deixá-lo
+                 se anexar sozinho à JVM, o que gera avisos e deixará de funcionar em versões futuras do JDK. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>properties</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>-javaagent:${org.mockito:mockito-core:jar} -Xshare:off</argLine>
+                    <!-- Variáveis que o SDK do Google lê sozinho e que trocariam a chave, o modo (Vertex AI) e o
+                         endereço das chamadas. Os testes confirmam que a aplicação não as usa. -->
+                    <environmentVariables>
+                        <GEMINI_API_KEY>chave-do-ambiente</GEMINI_API_KEY>
+                        <GOOGLE_GENAI_USE_VERTEXAI>true</GOOGLE_GENAI_USE_VERTEXAI>
+                        <GOOGLE_GENAI_USE_ENTERPRISE>true</GOOGLE_GENAI_USE_ENTERPRISE>
+                        <GOOGLE_GEMINI_BASE_URL>http://127.0.0.1:9/</GOOGLE_GEMINI_BASE_URL>
+                    </environmentVariables>
+                </configuration>
             </plugin>
         </plugins>
     </build>
